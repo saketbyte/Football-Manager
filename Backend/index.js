@@ -1,33 +1,36 @@
 import express from "express";
 import cors from "cors";
-import bodyParser from "body-parser";
+
+import authRoutes from "./routes/auth.js";
+import teamRoutes from "./routes/team.js";
+import transferRoutes from "./routes/transfer.js";
+
+import { authenticateToken } from "./middleware/auth.js";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
-app.use(
-	cors({
-		origin: "*",
-		methods: ["POST", "GET"],
-		credentials: true
-	})
-);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: true }));
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/team", authenticateToken, teamRoutes);
+app.use("/api/transfer", authenticateToken, transferRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {
 	res.json({ status: "OK", message: "Server is running" });
 });
 
-// Error Solved: Missing argument
-// EXPRESS@5 has different syntax. 2025 change.
-// Refer - https://expressjs.com/en/guide/migrating-5.html#path-syntax
+// Error handling middleware
+app.use((err, req, res, next) => {
+	console.error(err.stack);
+	res.status(500).json({ error: "Something went wrong!" });
+});
+
+// 404 handler
 app.use("/{*any}", (req, res) => {
 	res.status(404).json({ error: "Route not found" });
 });
