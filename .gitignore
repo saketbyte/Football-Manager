@@ -2,7 +2,7 @@
 # For suggestions or improvements please contact us using support@git-tower.com
 # Generated on 2025-07-25
 # Includes: node, react, express, typescript
-
+.vscode
 ### Universal ###
 # Common files that should be ignored in all projects
 

@@ -1,45 +1,53 @@
 import { v4 as uuidv4 } from "uuid";
 import { teams, playerPool } from "../models/data.js";
 
+// Using classes in Service to maintain encapsulation and Singleton design pattern.
+
 class TeamService {
 	async createTeam(userId) {
-		// Simulate async team creation process
+		// Simulate async team creation process with a promise being returned from timeOut
 		return new Promise((resolve) => {
 			setTimeout(() => {
-				const selectedPlayers = this.selectRandomPlayers();
+				const selectedPlayers = this.#selectRandomPlayers();
 				const team = {
 					id: uuidv4(),
 					userId,
 					budget: 5000000,
 					players: selectedPlayers,
-					createdAt: new Date().toISOString()
+					createdAt: new Date().toISOString(),
 				};
 
 				teams.push(team);
 				resolve(team);
-			}, 2000); // 2 second delay to simulate processing
+			}, 3000); // 2 second delay to simulate processing
 		});
 	}
 
-	selectRandomPlayers() {
+	#selectRandomPlayers() {
 		const goalkeepers = playerPool.filter((p) => p.position === "GK");
 		const defenders = playerPool.filter((p) => p.position === "DEF");
 		const midfielders = playerPool.filter((p) => p.position === "MID");
 		const attackers = playerPool.filter((p) => p.position === "ATT");
 
-		const selectedPlayers = [...this.getRandomPlayers(goalkeepers, 3), ...this.getRandomPlayers(defenders, 6), ...this.getRandomPlayers(midfielders, 6), ...this.getRandomPlayers(attackers, 5)];
+		//prettier-ignore
+		const selectedPlayers = [
+			...this.#getRandomPlayers(goalkeepers, 3),
+			...this.#getRandomPlayers(defenders, 6),
+			...this.#getRandomPlayers(midfielders, 6),
+			...this.#getRandomPlayers(attackers, 5)
+		];
 
 		return selectedPlayers.map((player) => ({
 			...player,
 			id: uuidv4(), // Give each player instance a unique ID
-			originalId: player.id,
-			onTransferList: false,
-			askingPrice: null
+			originalId: player.id, // like gk1, def1
+			onTransferList: false, // when listed on transfer.
+			askingPrice: null,
 		}));
 	}
 
-	getRandomPlayers(players, count) {
-		const shuffled = [...players].sort(() => 0.5 - Math.random());
+	#getRandomPlayers(players, count) {
+		const shuffled = [...players].sort(() => 0.5 - Math.random()); // basic math manipulation
 		return shuffled.slice(0, count);
 	}
 
@@ -55,7 +63,7 @@ class TeamService {
 				id: uuidv4(),
 				originalId: player.originalId || player.id,
 				onTransferList: false,
-				askingPrice: null
+				askingPrice: null,
 			});
 			return team;
 		}
@@ -89,7 +97,7 @@ class TeamService {
 			GK: team.players.filter((p) => p.position === "GK").length,
 			DEF: team.players.filter((p) => p.position === "DEF").length,
 			MID: team.players.filter((p) => p.position === "MID").length,
-			ATT: team.players.filter((p) => p.position === "ATT").length
+			ATT: team.players.filter((p) => p.position === "ATT").length,
 		};
 		return composition;
 	}

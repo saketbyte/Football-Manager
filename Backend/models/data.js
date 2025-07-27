@@ -3,6 +3,26 @@ let users = [];
 let teams = [];
 let transfers = [];
 
+// For reference:
+// Team data:
+// const team = {
+// 					id: uuidv4(),
+// 					userId,
+// 					budget: 5000000,
+// 					players: selectedPlayers,
+// 					createdAt: new Date().toISOString()
+// 				};
+
+// Each player in selectedPlayers:
+
+// const players[i] = {
+// 			...player,
+// 			id: uuidv4(), // Give each player instance a unique ID
+// 			originalId: player.id,
+// 			onTransferList: false,
+// 			askingPrice: null
+// 		}
+
 // Static player pool data
 const playerPool = [
 	// Goalkeepers

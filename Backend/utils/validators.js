@@ -17,9 +17,4 @@ const sanitizeInput = (input) => {
 	return input.trim();
 };
 
-module.exports = {
-	validateEmail,
-	validatePassword,
-	validatePrice,
-	sanitizeInput
-};
+export { validateEmail, validatePassword, validatePrice, sanitizeInput };

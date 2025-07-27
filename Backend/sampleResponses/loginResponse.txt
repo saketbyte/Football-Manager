@@ -1,0 +1,31 @@
+On the route - /api/auth/login
+
+user - sam@sam.com
+pwd - 123
+
+Structure:
+res.json({
+				success: true,
+				user: {
+					id: user.id,
+					email: user.email
+				},
+				token,
+				isNewUser,
+				hasTeam: !!team,
+				teamCreationInProgress
+			});
+
+
+response received:
+{
+  "success": true,
+  "user": {
+    "id": "46971812-2d3b-453e-ab9c-4217bf7c3cbc",
+    "email": "sam@sam.com"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ2OTcxODEyLTJkM2ItNDUzZS1hYjljLTQyMTdiZjdjM2NiYyIsImVtYWlsIjoic2FtQHNhbS5jb20iLCJpYXQiOjE3NTM1NTYxNTcsImV4cCI6MTc1MzY0MjU1N30.lfkvmc-zU1r--IducQAW43GHK_Pux-NTw9wXTtKyiKM",
+  "isNewUser": true,
+  "hasTeam": false,
+  "teamCreationInProgress": true
+}
