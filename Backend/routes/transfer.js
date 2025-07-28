@@ -50,6 +50,7 @@ router.get("/market", transferController.getTransferMarket);
  *             type: object
  *             required:
  *               - playerId
+ *               - askingPrice
  *             properties:
  *               playerId:
  *                 type: string

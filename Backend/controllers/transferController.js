@@ -6,7 +6,7 @@ class TransferController {
 			// Adding filter which I will use for filtering in the ui marketplace.
 			const filters = {
 				teamName: req.query.teamName,
-				playerName: req.query.playerName,
+				name: req.query.name,
 				minPrice: req.query.minPrice ? parseFloat(req.query.minPrice) : undefined,
 				maxPrice: req.query.maxPrice ? parseFloat(req.query.maxPrice) : undefined,
 			};
@@ -26,7 +26,10 @@ class TransferController {
 
 	async addPlayerToTransferList(req, res) {
 		try {
-			const { playerId, askingPrice } = req.body;
+			const { playerId, price } = req.body;
+			const askingPrice = parseFloat(price);
+			console.log(playerId);
+			console.log(price);
 
 			if (!playerId || !askingPrice) {
 				return res.status(400).json({ error: "Player ID and asking price are required" });

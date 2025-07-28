@@ -5,6 +5,7 @@ import { teams, playerPool } from "../models/data.js";
 
 class TeamService {
 	async createTeam(userId) {
+		// console.log("Create Team in team service class");
 		// Simulate async team creation process with a promise being returned from timeOut
 		return new Promise((resolve) => {
 			setTimeout(() => {
@@ -16,8 +17,10 @@ class TeamService {
 					players: selectedPlayers,
 					createdAt: new Date().toISOString(),
 				};
+				console.log("Created Team: ", team);
 
 				teams.push(team);
+				// console.log("teams after creation:", teams);
 				resolve(team);
 			}, 3000); // 2 second delay to simulate processing
 		});
@@ -52,6 +55,8 @@ class TeamService {
 	}
 
 	async getTeamByUserId(userId) {
+		console.log("userId", userId);
+		// console.log(teams);
 		return teams.find((team) => team.userId === userId);
 	}
 
@@ -60,8 +65,9 @@ class TeamService {
 		if (team) {
 			team.players.push({
 				...player,
-				id: uuidv4(),
-				originalId: player.originalId || player.id,
+				id: player.id,
+				playerId: player.id,
+				originalId: player.originalId,
 				onTransferList: false,
 				askingPrice: null,
 			});

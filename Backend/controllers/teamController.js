@@ -8,7 +8,7 @@ class TeamController {
 			if (!team) {
 				return res.status(404).json({
 					error: "Team not found",
-					teamCreationInProgress: true
+					teamCreationInProgress: true,
 				});
 			}
 
@@ -23,8 +23,8 @@ class TeamController {
 					players: team.players,
 					composition,
 					totalPlayers: team.players.length,
-					createdAt: team.createdAt
-				}
+					createdAt: team.createdAt,
+				},
 			});
 		} catch (error) {
 			console.error("Get team error:", error);
@@ -38,7 +38,7 @@ class TeamController {
 
 			res.json({
 				hasTeam: !!team,
-				teamCreationInProgress: !team
+				teamCreationInProgress: !team,
 			});
 		} catch (error) {
 			console.error("Team status error:", error);
@@ -53,12 +53,12 @@ class TeamController {
 			if (!team) {
 				return res.status(404).json({ error: "Team not found" });
 			}
-			console.log("getPlayersOnTransferList function in teamController", team);
+			// console.log("getPlayersOnTransferList function in teamController", team);
 			const playersOnTransferList = team.players.filter((player) => player.onTransferList);
 
 			res.json({
 				success: true,
-				players: playersOnTransferList
+				players: playersOnTransferList,
 			});
 		} catch (error) {
 			console.error("Get transfer list error:", error);

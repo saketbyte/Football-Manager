@@ -1,31 +1,204 @@
-On the route - /api/auth/login
+For my own reference and keeping track:::
+Authentication Routes
+POST /api/auth/login
+ // Request
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
 
-user - sam@sam.com
-pwd - 123
-
-Structure:
-res.json({
-				success: true,
-				user: {
-					id: user.id,
-					email: user.email
-				},
-				token,
-				isNewUser,
-				hasTeam: !!team,
-				teamCreationInProgress
-			});
-
-
-response received:
+// Response
 {
   "success": true,
   "user": {
-    "id": "46971812-2d3b-453e-ab9c-4217bf7c3cbc",
-    "email": "sam@sam.com"
+    "id": "uuid",
+    "email": "user@example.com"
   },
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ2OTcxODEyLTJkM2ItNDUzZS1hYjljLTQyMTdiZjdjM2NiYyIsImVtYWlsIjoic2FtQHNhbS5jb20iLCJpYXQiOjE3NTM1NTYxNTcsImV4cCI6MTc1MzY0MjU1N30.lfkvmc-zU1r--IducQAW43GHK_Pux-NTw9wXTtKyiKM",
-  "isNewUser": true,
-  "hasTeam": false,
-  "teamCreationInProgress": true
+  "token": "jwt-token",
+  "isNewUser": true/false,
+  "hasTeam": true/false,
+  "teamCreationInProgress": true/false
+}
+
+------
+GET /api/auth/profile
+ // Request: Headers only (Authorization: Bearer token)
+
+// Response
+{
+  "user": {
+    "id": "uuid",
+    "email": "user@example.com"
+  },
+  "hasTeam": true/false,
+  "teamCreationInProgress": true/false
+}
+
+
+
+Teams::
+
+
+GET /api/team
+ // Response
+{
+  "success": true,
+  "team": {
+    "id": "uuid",
+    "budget": 5000000,
+    "players": [PlayerSchema],
+    "composition": {
+      "GK": 3,
+      "DEF": 6,
+      "MID": 6,
+      "ATT": 5
+    },
+    "totalPlayers": 20,
+    "createdAt": "ISO-date"
+  }
+}
+GET /api/team/status
+ // Response
+{
+  "hasTeam": true/false,
+  "teamCreationInProgress": true/false
+}
+GET /api/team/transfer-list
+ // Response
+{
+  "success": true,
+  "players": [PlayerSchema] // only players with onTransferList: true
+}
+
+Transfer Routes
+
+GET /api/transfer/market
+ // Query params: ?teamName=Liverpool&playerName=Messi&minPrice=1000000&maxPrice=5000000
+
+// Response
+{
+  "success": true,
+  "transfers": [
+    {
+      "playerId": "uuid",
+      "playerName": "Lionel Messi",
+      "position": "ATT",
+      "originalTeam": "PSG",
+      "sellingTeamId": "uuid",
+      "askingPrice": 3500000,
+      "value": 3500000
+    }
+  ],
+  "count": 10
+}
+POST /api/transfer/list
+ // Request
+{
+  "playerId": "uuid",
+  "askingPrice": 2000000
+}
+
+// Response
+{
+  "success": true,
+  "message": "Player added to transfer list",
+  "player": PlayerSchema
+}
+
+
+DELETE /api/transfer/list/:playerId
+ // Response
+{
+  "success": true,
+  "message": "Player removed from transfer list",
+  "player": PlayerSchema
+}
+
+
+POST /api/transfer/buy
+ // Request
+{
+  "playerId": "uuid"
+}
+
+// Response
+{
+  "success": true,
+  "message": "Player purchased successfully",
+  "transfer": {
+    "id": "uuid",
+    "playerId": "uuid",
+    "playerName": "Lionel Messi",
+    "sellerTeamId": "uuid",
+    "buyerTeamId": "uuid",
+    "askingPrice": 3500000,
+    "purchasePrice": 3325000,
+    "timestamp": "ISO-date"
+  }
+}
+
+
+GET /api/transfer/history
+ // Response
+{
+  "success": true,
+  "history": [TransferSchema],
+  "count": 5
+}
+
+
+// data.js MODELS
+User Schema
+ {
+  "id": "uuid",
+  "email": "user@example.com",
+  "password": "hashed-password",
+  "createdAt": "ISO-date"
+}
+
+
+Team Schema
+ {
+  "id": "uuid",
+  "userId": "uuid",
+  "budget": 5000000,
+  "players": [PlayerSchema],
+  "createdAt": "ISO-date"
+}
+
+
+Player Schema (in team)
+ {
+  "id": "uuid", // Unique instance ID
+  "originalId": "gk1", // Reference to playerPool
+  "name": "Manuel Neuer",
+  "position": "GK",
+  "team": "Bayern Munich", // Original club
+  "value": 800000,
+  "onTransferList": false,
+  "askingPrice": null
+}
+
+
+PlayerPool Schema
+ {
+  "id": "gk1", // Static reference ID
+  "name": "Manuel Neuer",
+  "position": "GK",
+  "team": "Bayern Munich",
+  "value": 800000
+}
+
+
+
+Transfer Schema (completed transfers)
+ {
+  "id": "uuid",
+  "playerId": "uuid",
+  "playerName": "Lionel Messi",
+  "sellerTeamId": "uuid",
+  "buyerTeamId": "uuid",
+  "askingPrice": 3500000,
+  "purchasePrice": 3325000,
+  "timestamp": "ISO-date"
 }

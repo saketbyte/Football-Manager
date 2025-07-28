@@ -23,6 +23,18 @@ let transfers = [];
 // 			askingPrice: null
 // 		}
 
+// each transfer schema:
+// const transfer = {
+// 			id: uuidv4(),
+// 			playerId: playerId,
+// 			name: playerToBuy.name,
+// 			sellerTeamId: sellerTeam.id,
+// 			buyerTeamId: buyerTeam.id,
+// 			askingPrice: playerToBuy.askingPrice,
+// 			purchasePrice: purchasePrice,
+// 			timestamp: new Date().toISOString(),
+// 		};
+
 // Static player pool data
 const playerPool = [
 	// Goalkeepers
@@ -73,7 +85,12 @@ const playerPool = [
 	{ id: "att9", name: "Neymar Jr", position: "ATT", team: "Al Hilal", value: 3300000 },
 	{ id: "att10", name: "Harry Kane", position: "ATT", team: "Bayern Munich", value: 3000000 },
 	{ id: "att11", name: "Vinicius Jr", position: "ATT", team: "Real Madrid", value: 2700000 },
-	{ id: "att12", name: "Phil Foden", position: "ATT", team: "Manchester City", value: 2400000 }
+	{ id: "att12", name: "Phil Foden", position: "ATT", team: "Manchester City", value: 2400000 },
 ];
 
 export { users, teams, transfers, playerPool };
+console.log("Data module loaded at:", new Date().toISOString());
+console.log("-----------------USERS--------------");
+console.log(users);
+console.log("-----------------TEAMS--------------");
+console.log(teams);
