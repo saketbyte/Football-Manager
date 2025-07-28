@@ -4,8 +4,8 @@
 
 Demo Videos:
 
-1. ![Screen Recorded](https://youtu.be/1LkQeuzB4dc)
-2. ![Mobile cam Recorded](https://youtu.be/Y4ZaGaCDcfA)
+[Screen Recorded](https://youtu.be/1LkQeuzB4dc)
+[Mobile cam Recorded](https://youtu.be/Y4ZaGaCDcfA)
 
 The second video has better voice. Apologies as the laptop mic was not capturing the audio well.
 
