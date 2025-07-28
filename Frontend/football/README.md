@@ -1,69 +1,86 @@
-# React + TypeScript + Vite
+# Football Fantasy Manager UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Dependencies:
 
-Currently, two official plugins are available:
+-  @radix-ui/react-slot — UI primitive slot utility
+-  @radix-ui/react-tabs — accessible tab components
+-  @tailwindcss/vite — Tailwind integration for Vite
+-  class-variance-authority — utility for managing class variants
+-  clsx — conditional className utility
+-  lucide-react — icon library for React
+-  react — core React library (v19.1.0)
+-  react-dom — DOM rendering for React (v19.1.0)
+-  react-router-dom — routing for React apps
+-  tailwind-merge — smarter class merging for Tailwind
+-  tailwindcss — Tailwind CSS framework
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features:
 
-## Expanding the ESLint configuration
+-  **Single Login/Register Endpoint**
+-  **Context API for State**
+-  **Service Layer Pattern** - Clean separation of API logic from UI
+-  **TypeScript Throughout** - Type safety
+-  **Responsive Design** - Works on all device sizes
+-  **Error Handling** - User-friendly error prompts
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# Project UI Screens
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+LoginPage
+![Login Page](../../loginpage.png)
+DashBoard Page
+![Dashboard Page](../../DashboardPage.png)
+Marketplace Page
+![Marketplace Page](../../marketplacePage.png)
+Transfer(Transactions) Page
+![Transfers Page](../../transfersPage.png)
+Profile Page
+![Profile Page](../../profilePage.png)
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Request Flow by Page
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+#### App Initialization (AuthContext)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+-  Check localStorage for token
+-  If token exists → _GET_ /api/auth/profile
+-  Set user state and team status
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+#### LoginPage Flow
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+-  User enters email/password
+-  **POST** /api/auth/login
+
+-  Store token and user data
+
+-  Redirect to /team
+
+#### TeamPage Flow
+
+-  Load: **GET** /api/team
+
+-  Add to transfer list: _POST_ /api/transfer/list
+
+-  Remove from transfer list: _DELETE_ /api/transfer/list/{playerId}
+
+#### MarketplacePage Flow
+
+-  Load: _GET_ /api/transfer/market (with filters)
+
+-  Apply filters: _GET_ /api/transfer/market (with new params)
+
+-  Buy player: _POST_ /api/transfer/buy
+
+-  Refresh market: _GET_ /api/transfer/market
+
+#### ProfilePage Flow
+
+-  Load: _GET_ /api/auth/profile (user info)
+
+-  Load: _GET_ /api/team (if hasTeam is true)
+
+#### TransferListPage Flow
+
+-  Load transfer list: _GET_ /api/team/transfer-list
+
+-  Load history: _GET_ /api/transfer/history
+
+-  Remove from list: _DELETE_ /api/transfer/list/{playerId}
