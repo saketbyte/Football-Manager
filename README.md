@@ -59,7 +59,7 @@ I will add the hosted links if possible here.
 
 ---
 
-### Backend
+### Backend - 20hr
 
 **Authentication (login + register in one): 3 hours**
 
@@ -71,13 +71,13 @@ I will add the hosted links if possible here.
 
 ![Swagger Docs](swagger.png)
 
-**Team creation logic: 5 hours**
+**Team creation logic: 7 hours**
 
 -  This involved complexities to store the team with a unique id, how the randomisation will work, following the business logic, I separated the work in controllers and services and started using controller for only the routing and relevant function mapping, while I used the service files for maintaining business logic.
 
 -  It was cruicial to associate each team with it's own unique id so it is kept unique, in future if further updates are required, for a user to have multiple teams just in case.
 
-**Transfer market logic (filtering, buying/selling): 7 hours**
+**Transfer market logic (filtering, buying/selling): 9 hours**
 
 -  This was the most challenging aspect of the application, as I had to use controllers only for the technical logic and separately use the service like team service to manage team operation like adding and removing players, while also keeping track of JSON data for the transactions which are happening.
 
